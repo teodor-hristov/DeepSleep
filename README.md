@@ -1,0 +1,8 @@
+## Approach
+My implementation strategy involved configuring the cmakelists.txt file for simplified setup. I incorporated both time-based wakeup and on-demand wakeup (utilizing the ```GPIO_33``` wake pin). The wakeup interval is set to the required 15 minutes. For deep sleep, I employed the ```esp_deep_sleep_start()``` function from ```ESP-IDF```. Prior to initiating deep sleep, the program verifies if the pin is an RTC and if it’s suitable for this purpose. Additionally, to conserve power, I hold the board-specific GPIO to prevent power drain when the pin is pulled up.
+## Challenges
+The obstacles I encountered were conceptual as well as developmental.
+* On the conceptual front, I was uncertain about the appropriate method for data preservation when the device was awakened due to an undefined reason, such as a power outage or a crash. I addressed this by storing the time and the last wake-up state in SPIFFS.
+* From a developmental perspective, I was unsure which internal pins to hold/disable when the device was entering sleep mode. My development kit, a different version from AliExpress, lacked documentation. I was torn between using C++ and C for the project. Ultimately, I chose C due to the scalability of the project.
+## Testing
+The task’s solution was primarily validated through manual testing with shorter cycle times. I had contemplated an automated method that involved integrating an additional board (Arduino Uno). This board was intended to measure the time interval between each restart and signal the wake-up pin, thereby verifying the functionality of the on-demand wake-up feature. However, due to time constraints, this approach was not implemented.
